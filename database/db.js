@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-const DB_URL =
-  "mongodb+srv://bellal:mongodbpass@latest.idn8hsm.mongodb.net/?retryWrites=true&w=majority&appName=latest";
+import dotenv from "dotenv";
+dotenv.config();
+const DB_URL = process.env.DB_URL;
 
 let isConnected = false;
 async function connectDB() {
