@@ -1,14 +1,39 @@
 import mongoose from "mongoose";
 
+// export interface ICartItem extends Document {
+//   productId: mongoose.Types.ObjectId;
+//   quantity: number;
+//   color?: string;
+//   size?: string;
+//   addedToCart: Date;
+// }
+
 const cartSchema = new mongoose.Schema({
-  productId: {
+  product: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "products",
+    ref: "Product",
     required: true,
   },
-  quantity: { type: Number, default: 1 },
-  createdAt: { type: Date, default: Date.now },
-  // Optional: userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+  productId: {
+    type: String,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+  color: {
+    type: String,
+  },
+  size: {
+    type: String,
+    enum: ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
+  },
+  addedToCart: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Cart = mongoose.model("Cart", cartSchema);
