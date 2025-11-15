@@ -4,7 +4,6 @@ import Products from "../models/product.js";
 async function getAll(req, res) {
   try {
     const products = await Products.find();
-    console.log("req arrived");
     res.json(products);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -13,7 +12,6 @@ async function getAll(req, res) {
 
 async function getLatest(req, res) {
   const { quantity } = req.query;
-  console.log(quantity);
   try {
     const latestItems = await Products.find()
       .sort({ arrivalDate: -1 })
@@ -59,7 +57,6 @@ async function getById(req, res) {
 }
 async function saveIntoCart(req, res) {
   const { product, productId, quantity, color, size } = req.body;
-  console.log(product, productId, quantity, color, size);
   try {
     const existingProduct = await Cart.findOne({ productId });
     if (!existingProduct) {
@@ -74,29 +71,22 @@ async function saveIntoCart(req, res) {
       // save to DB here
       res.json("cart item added");
     }
-    console.log(existingProduct);
   } catch (err) {
-    console.log(err);
     res.json(err);
   }
-  console.log(product, productId);
 }
 async function removeFromCart(req, res) {
   const { id } = req.params;
-  console.log(id);
   try {
     await Cart.findByIdAndDelete(id);
     res.json("cart item removed");
   } catch (err) {
-    console.log(err);
     res.json(err);
   }
 }
 async function getCartItems(req, res) {
-  console.log("backend");
   try {
     const cartItems = await Cart.find().populate("product");
-    console.log(cartItems);
     res.json(cartItems);
   } catch (err) {
     res.json(err);

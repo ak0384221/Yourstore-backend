@@ -22,7 +22,7 @@ const ratingSchema = new mongoose.Schema({
 
 const productSchema = new mongoose.Schema({
   // Basic Info
-  productId: { type: String, required: true, unique: true },
+  productId: { type: String, required: true, unique: true, index: true },
   name: { type: String, required: true, trim: true },
   description: { type: String, required: true },
   brand: { type: String, default: "Unknown" },

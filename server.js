@@ -48,10 +48,9 @@ app.get("/api/cart", getCartItems);
 
 app.post("/api/order", async (req, res) => {
   const products = req.body;
-  console.log(products);
+
   const newOrder = new Order({ products: products });
   await newOrder.save();
-  console.log(newOrder);
 });
 
 app.post("/api/cart", saveIntoCart);
