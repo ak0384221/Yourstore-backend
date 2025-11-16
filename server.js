@@ -20,12 +20,7 @@ const PORT = 5000;
 //middleweres
 app.use(e.json());
 app.use(e.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+app.use(cors());
 //
 
 //routes get
