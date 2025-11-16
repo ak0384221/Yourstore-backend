@@ -56,7 +56,7 @@ async function getById(req, res) {
   }
 }
 async function saveIntoCart(req, res) {
-  const { product, productId, quantity, color, size } = req.body;
+  const { product, productId, quantity, color, size, finalAmount } = req.body;
   try {
     const existingProduct = await Cart.findOne({ productId });
     if (!existingProduct) {
@@ -66,6 +66,7 @@ async function saveIntoCart(req, res) {
         quantity,
         color,
         size,
+        finalAmount,
       });
       await newCartItem.save();
       // save to DB here

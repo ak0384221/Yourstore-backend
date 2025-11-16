@@ -34,6 +34,10 @@ const cartSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  finalAmount: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Cart = mongoose.model("Cart", cartSchema);
