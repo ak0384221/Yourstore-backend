@@ -15,7 +15,7 @@ import {
 import Cart from "./models/cart.js";
 import { Order } from "./models/order.js";
 const app = e();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 //middleweres
 app.use(e.json());
