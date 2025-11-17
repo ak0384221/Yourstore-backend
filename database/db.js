@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-const DB_URL = process.env.DB_URL;
 
+dotenv.config();
+const DB_URL = process.env.DB_URL;
 let isConnected = false;
 async function connectDB() {
   if (isConnected) return;

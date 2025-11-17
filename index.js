@@ -2,6 +2,8 @@ import e, { json } from "express";
 import connectDB from "./database/db.js";
 import Products from "./models/product.js";
 import cors from "cors";
+import dotenv from "dotenv";
+
 import {
   getAll,
   getByCategory,
