@@ -12,8 +12,10 @@ import {
   removeFromCart,
   saveIntoCart,
 } from "./controller/productController.js";
-import Cart from "./models/cart.js";
 import { Order } from "./models/order.js";
+
+dotenv.config();
+
 const app = e();
 
 const allowedOrigins = [
