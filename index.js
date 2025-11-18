@@ -14,7 +14,7 @@ import {
   removeFromCart,
   saveIntoCart,
 } from "./controller/productController.js";
-import { Order } from "./models/order.js";
+import Order from "./models/order.js";
 
 dotenv.config();
 
@@ -24,6 +24,7 @@ const allowedOrigins = [
   process.env.FRONTEND_URL, // Will be localhost in local .env or Vercel URL in Railway
   "http://localhost:3000", // Optional explicit allowance for local frontend
 ];
+
 const PORT = process.env.PORT || 5000;
 
 //middleweres
@@ -66,7 +67,8 @@ app.get("/api/cart", getCartItems);
 app.post("/api/order", async (req, res) => {
   const products = req.body;
 
-  const newOrder = new Order({ products: products });
+  const newOrder = new Order(products);
+
   await newOrder.save();
 });
 
