@@ -1,6 +1,7 @@
 import Cart from "../models/cart.js";
+import Order from "../models/order.js";
 import Products from "../models/product.js";
-
+//imports
 async function getAll(req, res) {
   try {
     const products = await Products.find();
@@ -9,7 +10,6 @@ async function getAll(req, res) {
     res.status(400).json({ message: err.message });
   }
 }
-
 async function getLatest(req, res) {
   const { quantity } = req.query;
   try {
@@ -21,7 +21,6 @@ async function getLatest(req, res) {
     res.json({ message: err.message });
   }
 }
-
 async function getOnSales(req, res) {
   const { quantity } = req.query;
   try {
@@ -33,7 +32,6 @@ async function getOnSales(req, res) {
     res.json({ message: err.message });
   }
 }
-
 async function getByCategory(req, res) {
   const { category } = req.params;
   try {
@@ -45,7 +43,6 @@ async function getByCategory(req, res) {
     res.json({ message: er.message });
   }
 }
-
 async function getById(req, res) {
   const { id } = req.params;
   try {
@@ -93,6 +90,23 @@ async function getCartItems(req, res) {
     res.json(err);
   }
 }
+async function getOrders(req, res) {
+  try {
+    const orders = await Order.find();
+    res.json(orders);
+  } catch (err) {
+    res.json(err);
+  }
+}
+async function getOrder(req, res) {
+  try {
+    const products = req.body;
+    const newOrder = new Order(products);
+    await newOrder.save();
+  } catch (err) {
+    res.json(err);
+  }
+}
 
 export {
   getAll,
@@ -103,4 +117,6 @@ export {
   saveIntoCart,
   removeFromCart,
   getCartItems,
+  getOrders,
+  getOrder,
 };
