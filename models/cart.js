@@ -1,13 +1,5 @@
 import mongoose from "mongoose";
 
-// export interface ICartItem extends Document {
-//   productId: mongoose.Types.ObjectId;
-//   quantity: number;
-//   color?: string;
-//   size?: string;
-//   addedToCart: Date;
-// }
-
 const cartSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,

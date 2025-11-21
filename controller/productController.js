@@ -98,11 +98,12 @@ async function getOrders(req, res) {
     res.json(err);
   }
 }
-async function getOrder(req, res) {
+async function saveOrder(req, res) {
   try {
     const products = req.body;
     const newOrder = new Order(products);
     await newOrder.save();
+    res.json(newOrder);
   } catch (err) {
     res.json(err);
   }
@@ -118,5 +119,5 @@ export {
   removeFromCart,
   getCartItems,
   getOrders,
-  getOrder,
+  saveOrder,
 };

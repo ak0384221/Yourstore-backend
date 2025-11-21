@@ -10,10 +10,10 @@ import {
   getCartItems,
   getLatest,
   getOnSales,
-  getOrder,
   getOrders,
   removeFromCart,
   saveIntoCart,
+  saveOrder,
 } from "./controller/productController.js";
 import Order from "./models/order.js";
 //imports
@@ -54,7 +54,7 @@ app.get("/api/products/:id", getById);
 app.get("/api/cart", getCartItems);
 app.get("/api/orders", getOrders);
 //routes post
-app.post("/api/order", getOrder);
+app.post("/api/order", saveOrder);
 app.post("/api/cart", saveIntoCart);
 //patch
 app.patch("/api/order/:id", async (req, res) => {
