@@ -3,7 +3,80 @@ import Order from "../models/order.js";
 import Products from "../models/product.js";
 //imports
 async function getAll(req, res) {
+  // const mapDummyProduct = (item) => {
+  //   const discount = item.discountPercentage || 0;
+  //   const basePrice = item.price;
+  //   const finalPrice = basePrice - (basePrice * discount) / 100;
+
+  //   return {
+  //     productId: `P-${item.id}`, // fallback
+  //     name: item.title,
+  //     description: item.description,
+  //     brand: item.brand || "Unknown",
+  //     category: item.category || "General",
+
+  //     // images → [{ url, alt }]
+  //     images: (item.images || []).map((url, index) => ({
+  //       url,
+  //       alt: `${item.title} image ${index + 1}`,
+  //     })),
+
+  //     // No variants in dummyjson, create a default
+  //     variants: [
+  //       {
+  //         size: "Default",
+  //         colors: [
+  //           {
+  //             colorName: "Default",
+  //             stock: item.stock ?? 0,
+  //           },
+  //         ],
+  //       },
+  //     ],
+
+  //     // pricing
+  //     basePrice,
+  //     discountPercent: discount,
+  //     salePercent: 0,
+  //     finalPrice: Number(finalPrice.toFixed(2)),
+
+  //     // stock
+  //     totalStock: item.stock ?? 0,
+  //     sold: 0,
+  //     availableQuantity: item.stock ?? 0,
+
+  //     // status
+  //     status: item.availabilityStatus === "In Stock" ? "active" : "on hold",
+
+  //     // rating
+  //     rating: {
+  //       average: item.rating || 0,
+  //       count: item.reviews?.length || 0,
+  //     },
+
+  //     // dates
+  //   };
+  // };
+
   try {
+    // const products = await Products.find();
+
+    // const response = await fetch(
+    //   "https://dummyjson.com/products?limit=0&skip=30"
+    // );
+    // const data = await response.json();
+    // const productsData = data.products.map((item) => {
+    //   const data = mapDummyProduct(item);
+    //   return data;
+    // });
+    // console.log(productsData);
+    // const newData = await Products.insertMany(productsData);
+    // await newData.save();
+
+    // res.send(newData);
+
+    // const categories = await Products.distinct("category");
+    // res.json(categories);
     const products = await Products.find();
     res.json(products);
   } catch (err) {
@@ -65,12 +138,12 @@ async function saveIntoCart(req, res) {
         size,
         finalAmount,
       });
-      await newCartItem.save();
+      const result = await newCartItem.save();
       // save to DB here
       res.json("cart item added");
     }
   } catch (err) {
-    res.json(err);
+    res.status(500).json({ error: err.message || err });
   }
 }
 async function removeFromCart(req, res) {
