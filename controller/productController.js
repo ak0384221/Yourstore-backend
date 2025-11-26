@@ -3,84 +3,18 @@ import Order from "../models/order.js";
 import Products from "../models/product.js";
 //imports
 async function getAll(req, res) {
-  // const mapDummyProduct = (item) => {
-  //   const discount = item.discountPercentage || 0;
-  //   const basePrice = item.price;
-  //   const finalPrice = basePrice - (basePrice * discount) / 100;
-
-  //   return {
-  //     productId: `P-${item.id}`, // fallback
-  //     name: item.title,
-  //     description: item.description,
-  //     brand: item.brand || "Unknown",
-  //     category: item.category || "General",
-
-  //     // images → [{ url, alt }]
-  //     images: (item.images || []).map((url, index) => ({
-  //       url,
-  //       alt: `${item.title} image ${index + 1}`,
-  //     })),
-
-  //     // No variants in dummyjson, create a default
-  //     variants: [
-  //       {
-  //         size: "Default",
-  //         colors: [
-  //           {
-  //             colorName: "Default",
-  //             stock: item.stock ?? 0,
-  //           },
-  //         ],
-  //       },
-  //     ],
-
-  //     // pricing
-  //     basePrice,
-  //     discountPercent: discount,
-  //     salePercent: 0,
-  //     finalPrice: Number(finalPrice.toFixed(2)),
-
-  //     // stock
-  //     totalStock: item.stock ?? 0,
-  //     sold: 0,
-  //     availableQuantity: item.stock ?? 0,
-
-  //     // status
-  //     status: item.availabilityStatus === "In Stock" ? "active" : "on hold",
-
-  //     // rating
-  //     rating: {
-  //       average: item.rating || 0,
-  //       count: item.reviews?.length || 0,
-  //     },
-
-  //     // dates
-  //   };
-  // };
-
   try {
-    // const products = await Products.find();
+    const q = req.query.q || ""; // get query string
 
-    // const response = await fetch(
-    //   "https://dummyjson.com/products?limit=0&skip=30"
-    // );
-    // const data = await response.json();
-    // const productsData = data.products.map((item) => {
-    //   const data = mapDummyProduct(item);
-    //   return data;
-    // });
-    // console.log(productsData);
-    // const newData = await Products.insertMany(productsData);
-    // await newData.save();
+    // MongoDB regex search (case-insensitive)
+    const products = await Products.find({
+      name: { $regex: q, $options: "i" }, // search by name
+    });
 
-    // res.send(newData);
-
-    // const categories = await Products.distinct("category");
-    // res.json(categories);
-    const products = await Products.find();
     res.json(products);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 }
 async function getLatest(req, res) {
@@ -182,6 +116,26 @@ async function saveOrder(req, res) {
   }
 }
 
+async function getProductsName(req, res) {
+  try {
+    const products = await Products.find().select("name productId");
+    res.json(products);
+  } catch (err) {
+    res.json(err);
+  }
+}
+
+async function updateOrderStatus(req, res) {
+  try {
+    const updatedData = req.body;
+    const updated = await Order.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+  } catch (err) {
+    res.json(err);
+  }
+}
+
 export {
   getAll,
   getLatest,
@@ -193,4 +147,6 @@ export {
   getCartItems,
   getOrders,
   saveOrder,
+  getProductsName,
+  updateOrderStatus,
 };

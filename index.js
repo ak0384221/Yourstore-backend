@@ -11,6 +11,7 @@ import {
   getLatest,
   getOnSales,
   getOrders,
+  getProductsName,
   removeFromCart,
   saveIntoCart,
   saveOrder,
@@ -42,10 +43,7 @@ app.use(
   })
 );
 //routes get
-app.get("/", async (req, res) => {
-  const a = await Products.findOne({ name: "blue watch" });
-  res.send(a);
-});
+
 app.get("/api/products", getAll);
 app.get("/api/products/latest", getLatest);
 app.get("/api/products/sales", getOnSales);
@@ -53,16 +51,12 @@ app.get("/api/products/category/:category", getByCategory);
 app.get("/api/products/:id", getById);
 app.get("/api/cart", getCartItems);
 app.get("/api/orders", getOrders);
+app.get("/api/getProductsName", getProductsName);
 //routes post
 app.post("/api/order", saveOrder);
 app.post("/api/cart", saveIntoCart);
 //patch
-app.patch("/api/order/:id", async (req, res) => {
-  const updatedData = req.body;
-  const updated = await Order.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
-});
+app.patch("/api/order/:id", updateOrderStatus);
 //delete
 app.delete("/api/cart/:id", removeFromCart);
 //db connection
