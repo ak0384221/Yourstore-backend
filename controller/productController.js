@@ -1,3 +1,4 @@
+import { finalprice } from "../lib/pricingFunctons.js";
 import Cart from "../models/cart.js";
 import Order from "../models/order.js";
 import Products from "../models/product.js";
@@ -21,7 +22,7 @@ async function getLatest(req, res) {
   const { quantity } = req.query;
   try {
     const latestItems = await Products.find()
-      .sort({ arrivalDate: -1 })
+      .sort({ addedDate: -1 })
       .limit(quantity);
     return res.json(latestItems);
   } catch (err) {
@@ -31,7 +32,7 @@ async function getLatest(req, res) {
 async function getOnSales(req, res) {
   const { quantity } = req.query;
   try {
-    const onSaleProducts = await Products.find({ sale: { $gt: 0 } }).limit(
+    const onSaleProducts = await Products.find({ sale: { $gt: 10 } }).limit(
       quantity
     );
     res.json(onSaleProducts);
@@ -44,7 +45,7 @@ async function getByCategory(req, res) {
   try {
     const specificCatProducts = await Products.find({
       category: new RegExp(`^${category}$`, "i"), // simple version
-    });
+    }).limit(20);
     res.json(specificCatProducts);
   } catch (err) {
     res.json({ message: er.message });
@@ -60,22 +61,26 @@ async function getById(req, res) {
   }
 }
 async function saveIntoCart(req, res) {
-  const { product, productId, quantity, color, size, finalAmount } = req.body;
+  const { product, productId, quantity, color, size } = req.body;
+
+  const existingProduct = await Cart.findOne({ productId });
+  if (existingProduct) {
+    return res.status(500).json({ error: "already exist" });
+  }
+
   try {
-    const existingProduct = await Cart.findOne({ productId });
-    if (!existingProduct) {
-      const newCartItem = new Cart({
-        product,
-        productId,
-        quantity,
-        color,
-        size,
-        finalAmount,
-      });
-      const result = await newCartItem.save();
-      // save to DB here
-      res.json("cart item added");
-    }
+    const productInstance = await Products.findOne({ _id: product });
+    const finalAmount = finalprice(productInstance, quantity);
+    const newCartItem = new Cart({
+      product,
+      productId,
+      quantity,
+      color,
+      size,
+      finalAmount,
+    });
+    await newCartItem.save();
+    res.json("cart item added");
   } catch (err) {
     res.status(500).json({ error: err.message || err });
   }
