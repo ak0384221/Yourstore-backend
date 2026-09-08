@@ -40,7 +40,7 @@ app.use(
       }
     },
     credentials: true,
-  })
+  }),
 );
 //routes get
 

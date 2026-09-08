@@ -33,7 +33,7 @@ async function getOnSales(req, res) {
   const { quantity } = req.query;
   try {
     const onSaleProducts = await Products.find({ sale: { $gt: 10 } }).limit(
-      quantity
+      quantity,
     );
     res.json(onSaleProducts);
   } catch (err) {
@@ -62,6 +62,7 @@ async function getById(req, res) {
 }
 async function saveIntoCart(req, res) {
   const { product, productId, quantity, color, size } = req.body;
+  console.log("got new cart add req", req.body);
 
   const existingProduct = await Cart.findOne({ productId });
   if (existingProduct) {
@@ -87,6 +88,7 @@ async function saveIntoCart(req, res) {
 }
 async function removeFromCart(req, res) {
   const { id } = req.params;
+  console.log("cart item remove req", id);
   try {
     await Cart.findByIdAndDelete(id);
     res.json("cart item removed");
@@ -98,6 +100,7 @@ async function getCartItems(req, res) {
   try {
     const cartItems = await Cart.find().populate("product");
     res.json(cartItems);
+    console.log("get cart item show req,", res.json(cartItems));
   } catch (err) {
     res.json(err);
   }
