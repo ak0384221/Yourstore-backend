@@ -10,7 +10,7 @@ RUN pnpm install --prod --frozen-lockfile
 
 COPY . .
 
-EXPOSE 4000
+EXPOSE 5000
 ENV NODE_ENV=production
 
-CMD [ "node","dist/index.js" ]
+CMD [ "node","index.js" ]
