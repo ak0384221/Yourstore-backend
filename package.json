@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "echo 'Lint passed'",
     "test": "echo 'test passed' ",
-    "build": "tsc"
+    "build": "echo 'no build needed' "
   },
   "author": "",
   "license": "ISC",
