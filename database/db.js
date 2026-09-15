@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+//checking
 dotenv.config();
 const DB_URL = process.env.DB_URL;
 let isConnected = false;
