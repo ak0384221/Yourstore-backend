@@ -8,7 +8,7 @@ COPY package*.json pnpm-lock.taml ./
 
 RUN pnpm install --prod --frozen-lockfile
 
-COPY dist/ ./dist
+COPY . .
 
 EXPOSE 4000
 ENV NODE_ENV=production
