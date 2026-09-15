@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "lint": "echo 'Lint passed'",
-    "test": "echo 'test passed' "
+    "test": "echo 'test passed' ",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
