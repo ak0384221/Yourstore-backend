@@ -11,7 +11,7 @@ jobs:
       - name: check
         uses: actions/checkout@v4
 
-      - name: install pnpm
+      - name: setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 11.24.0
