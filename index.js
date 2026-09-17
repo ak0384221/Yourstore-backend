@@ -20,35 +20,30 @@ import Order from "./models/order.js";
 //imports
 dotenv.config();
 const app = e();
-// const allowedOrigins = [
-//   process.env.FRONTEND_URL, // Will be localhost in local .env or Vercel URL in Railway
-//   "http://localhost:3000", // Optional explicit allowance for local frontend
-// ];
+const allowedOrigins = [
+  process.env.FRONTEND_URL, // Will be localhost in local .env or Vercel URL in Railway
+  "http://localhost:3000", // Optional explicit allowance for local frontend
+];
 const PORT = process.env.PORT || 5000;
 //middleweres
 app.use(e.json());
 app.use(e.urlencoded({ extended: true }));
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       if (!origin) return callback(null, true);
-
-//       if (allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS: " + origin));
-//       }
-//     },
-//     credentials: true,
-//   }),
-// );
-//routes get
 app.use(
   cors({
-    origin: true, // reflects back whatever Origin the request sent — effectively allows all
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS: " + origin));
+      }
+    },
     credentials: true,
   }),
 );
+//routes get
+
 app.get("/api/products", getAll);
 app.get("/api/products/latest", getLatest);
 app.get("/api/products/sales", getOnSales);
