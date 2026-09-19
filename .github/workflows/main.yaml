@@ -27,11 +27,8 @@ jobs:
       - name: install node modules
         run: pnpm install --frozen-lockfile
 
-      - name: lint check
-        run: pnpm run lint
-
-      - name: test
-        run: pnpm run test
+      - name: check and test
+        uses: ./.github/actions/test-app
 
       - name: build
         run: pnpm run build

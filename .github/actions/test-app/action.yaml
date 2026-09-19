@@ -1,0 +1,13 @@
+name: "test the app"
+description: "check the linting and test the app."
+runs:
+  using: "composite"
+  steps:
+    - name: test linting
+      id: lint
+      run: pnpm run lint
+      shell: bash
+
+    - name: test the app
+      run: pnpm run test
+      shell: bash
